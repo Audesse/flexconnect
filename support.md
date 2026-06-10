@@ -6,12 +6,12 @@ layout: default
 If Audesse needs to connect to your FlexCase for support, they should be able to connect over LTE to your device as long as it has a working SIM card and cellular signal. if no signal is available, you can fall back to Wi-Fi and follow the steps below to create a temporary remote session. 
 
 ## Granting Audesse Access
-1. Turn on the FlexCase and ensure it is connected to your network with internet access.
+- Turn on the FlexCase and ensure it is connected to your network with internet access.
    - The FlexCase is usually configured to connect automatically to a nearby Wi-Fi hotspot with the following credentials:
       - SSID: `AudesseTest`
       - Password: `FlexCase`
     - See [Hotspot Configuration on Windows](#hotspot-configuration-on-windows) below for instructions on setting up this hotspot on a Windows machine.
-2. SSH into the FlexCase.
+- SSH into the FlexCase.
    - On Windows, use PowerShell or Windows Terminal. If you already use Git Bash or another terminal with `ssh` installed, that works too.
    - Run the full SSH command for your MPU module:
 
@@ -26,21 +26,22 @@ If Audesse needs to connect to your FlexCase for support, they should be able to
  ```
    - If the terminal asks you to confirm the host fingerprint, enter `yes` and press Enter.
    - The temporary password is `audesse_temp`.
-1. Install `tmate`:
+  
+- Install `tmate`:
 
-   ```bash
-   sudo apt install tmate -y
-   ```
+```bash
+sudo apt install tmate -y
+```
 
-2. Start `tmate`:
+- Start `tmate`:
 
-   ```bash
-   tmate
-   ```
+```bash
+tmate -F
+```
 
-3. Copy the SSH or web session link that `tmate` provides.
+- Copy the SSH or web session link that `tmate` provides.
    ![tmate-session.png](images/tmate-session.png)
-4. Share that link with an Audesse employee so they can connect to the device.
+- Share that link with an Audesse employee so they can connect to the device.
 
 > Only share the `tmate` session link directly with Audesse support staff. End the session when support is complete.
 

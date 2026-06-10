@@ -53,6 +53,8 @@ The control panel displays the version of the FlexConnect system running on your
 If you prefer to manage device configuration as code, the control panel allows editing the entire device configuration as a JSON object. Navigate to the JSON Editor tab to view and edit the JSON representation of the device configuration, including message definitions, sample rates, and other parameters. 
 
 > Before committing changes in the JSON editor, make sure to navigate back to the Field Editor tab to verify that all fields are correctly parsed and displayed.
+
+
 ![json-editor.png](images/json-editor.png)
 
 ### Device Requests

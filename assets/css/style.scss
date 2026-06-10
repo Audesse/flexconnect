@@ -77,6 +77,10 @@ main.content {
 
 main.content img {
   max-width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin: 10px 0;
+  padding: 4px;
 }
 
 main.content table {
@@ -122,6 +126,57 @@ main.content blockquote p {
 main.content ul li,
 main.content ol li {
   margin-bottom: 6px;
+}
+
+main.content code {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 2px 5px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.88em;
+  color: #c7254e;
+}
+
+main.content pre {
+  background-color: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 16px;
+  overflow-x: auto;
+  margin: 16px 0;
+  position: relative;
+}
+
+main.content pre .copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 10px;
+  font-size: 0.78em;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+main.content pre:hover .copy-btn {
+  opacity: 1;
+}
+
+main.content pre .copy-btn:active {
+  background: #e0e0e0;
+}
+
+main.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #333;
+  font-size: 0.9em;
+  line-height: 1.6;
 }
 
 @media screen and (max-width: 768px) {
