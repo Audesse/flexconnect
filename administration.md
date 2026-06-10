@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # Administration
 
 This section covers account and access management.

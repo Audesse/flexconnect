@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # Support
 
 If Audesse needs to connect to your FlexCase for support, they should be able to connect over LTE to your device as long as it has a working SIM card and cellular signal. if no signal is available, you can fall back to Wi-Fi and follow the steps below to create a temporary remote session. 

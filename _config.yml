@@ -1,3 +1,16 @@
 theme: jekyll-theme-minimal
 title: FlexConnect Documentation
 description: Official documentation for FlexConnect.
+repository: audesse/flexconnect
+
+navigation:
+  - title: Getting Started
+    url: /
+  - title: Device Control Panel
+    url: /device-control-panel.html
+  - title: Data and API
+    url: /data-and-api.html
+  - title: Administration
+    url: /administration.html
+  - title: Support
+    url: /support.html

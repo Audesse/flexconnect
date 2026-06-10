@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # Device Control Panel
 
 Each device has a control panel widget, developed by Audesse, that lets you configure the device. All other widgets on the dashboard are standard Grafana components and can be customized freely.

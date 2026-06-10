@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # Data and API
 
 This section provides an overview of the data architecture and how to publish custom data.
