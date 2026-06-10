@@ -1,0 +1,14 @@
+---
+---
+@import "{{ site.theme }}";
+
+.wrapper {
+  max-width: 1200px;
+  padding: 20px;
+}
+
+@media screen and (max-width: 640px) {
+  .wrapper {
+    padding: 10px;
+  }
+}
