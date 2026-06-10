@@ -1,5 +1,15 @@
 # Getting Started with FlexConnect
 
+Welcome to the FlexConnect documentation. This site provides information on how to get started with your FlexCase and the FlexConnect portal.
+
+## Contents
+
+- [Getting Started](getting-started.md)
+- [Device Control Panel](device-control-panel.md)
+- [Data and API](data-and-api.md)
+- [Administration](administration.md)
+- [Support](support.md)
+
 ## Prerequisites
 
 - FlexConnect credentials for the FlexConnect portal. Contact Audesse if you have not yet received them.
