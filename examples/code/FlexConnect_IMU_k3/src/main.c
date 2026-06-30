@@ -69,7 +69,10 @@
 #define CAN_NUMBER_OF_MSG 2U
 #define IMU_Bytes_A_ID 0x9CFF3A65
 #define IMU_Bytes_B_ID 0x9CFF3B65
-#define FLX_TransferSize 217U
+#define FLX_MessageSize 13U
+#define FLX_MessagesPerTransfer 16U
+#define FLX_TransferOverhead 9U
+#define FLX_TransferSize (FLX_MessageSize * FLX_MessagesPerTransfer + FLX_TransferOverhead)
 
 /*==================================================================================================
 *                                      GLOBAL VARIABLES

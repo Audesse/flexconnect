@@ -1,0 +1,8 @@
+{%- assign repo_path = include.path | strip | remove_first: '/' -%}
+{%- assign link_text = include.text | default: repo_path -%}
+{%- if include.tree -%}
+  {%- assign link_url = site.repo.url | append: '/tree/' | append: site.repo.branch | append: '/' | append: repo_path -%}
+{%- else -%}
+  {%- assign link_url = site.repo.url | append: '/blob/' | append: site.repo.branch | append: '/' | append: repo_path -%}
+{%- endif -%}
+<a href="{{ link_url }}">{{ link_text }}</a>
