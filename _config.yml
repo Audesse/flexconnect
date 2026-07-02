@@ -3,6 +3,14 @@ title: FlexConnect Documentation
 description: Official documentation for FlexConnect.
 repository: audesse/flexconnect
 
+# Base URL for linking to files and directories on GitHub from documentation.
+# Usage in Markdown pages (with front matter):
+#   [flexconnect.h]({{ site.repo.url }}/blob/{{ site.repo.branch }}/lib/flexconnect.h)
+#   {% include repo_link.html path="lib/flexconnect.h" text="flexconnect.h" %}
+repo:
+  url: https://github.com/audesse/flexconnect
+  branch: main
+
 navigation:
   - title: Getting Started
     url: /
@@ -14,3 +22,5 @@ navigation:
     url: /administration.html
   - title: Support
     url: /support.html
+  - title: Examples
+    url: /examples/
