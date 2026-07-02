@@ -13,4 +13,4 @@ Sample DBC files and simulation models are available in the {% include repo_link
 
 ## Code
 
-Sample C (S32DK) and Python (Linux) code is available in the [code](code/) folder. Source for all examples is hosted on GitHub at {% include repo_link.html path="examples/code/" text="examples/code" tree=true %}.
+Sample C (S32DK) and Python (Linux) code is available in the [code](code/) folder. Source for all examples is hosted on GitHub at {% include repo_link.html path="examples\/code/" text="examples/code" tree=true %}.
