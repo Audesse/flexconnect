@@ -18,6 +18,8 @@ navigation:
     url: /device-control-panel.html
   - title: Data and API
     url: /data-and-api.html
+  - title: AI Agents
+    url: /ai-agents.html
   - title: Administration
     url: /administration.html
   - title: Support

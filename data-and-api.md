@@ -52,3 +52,7 @@ The FlexCase communicates with the cloud over both MQTT and HTTP:
 - HTTP is used for file transfers such as DBC downloads and OTA firmware updates. FlexConnect wraps S3 with its own authentication, so any file you upload through the platform becomes available to the device via HTTP.
 
 > If you prefer HTTP or REST over MQTT for downstream control, contact Audesse to discuss a custom interface.
+
+## AI Agents
+
+To query your telemetry from an AI agent such as Claude Code, Codex or Cursor, see [AI Agents](ai-agents.html).
