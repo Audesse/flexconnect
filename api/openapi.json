@@ -1,0 +1,1824 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Flexconnect API",
+    "version": "0.6.0",
+    "description": "Reference for the Flexconnect fleet telematics API.\n\n- **Device Requests** (`DeviceRequestsApi`): `/api/*`\n- **Telemetry Query** (`TelemetryQueryApi`): `/api/telemetry/*`",
+    "contact": {
+      "name": "Omar Naman",
+      "email": "omar.naman@audesseinc.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.audesseinc.com",
+      "description": "Production"
+    }
+  ],
+  "paths": {
+    "/api/FlexConfigRequest": {
+      "get": {
+        "tags": [
+          "device-config"
+        ],
+        "summary": "Device polls config stake requests",
+        "operationId": "get_config_request_api_FlexConfigRequest_get",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "client-type",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Client-Type"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/FlexSendsRequest": {
+      "get": {
+        "tags": [
+          "device-config"
+        ],
+        "summary": "Device polls outbound CAN config",
+        "operationId": "get_sends_request_api_FlexSendsRequest_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/FlexDeleteRequest": {
+      "post": {
+        "tags": [
+          "device-config"
+        ],
+        "summary": "Delete stake configurations for a device",
+        "description": "Returns HTTP 204 with a JSON body.",
+        "operationId": "delete_request_api_FlexDeleteRequest_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/command": {
+      "post": {
+        "tags": [
+          "device-commands"
+        ],
+        "summary": "Run Command",
+        "operationId": "run_command_api_command_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommandRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/FlexSoftwareUpdate": {
+      "post": {
+        "tags": [
+          "device-patch"
+        ],
+        "summary": "Software Update",
+        "operationId": "software_update_api_FlexSoftwareUpdate_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatchResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/FlexGetUploadURL": {
+      "post": {
+        "tags": [
+          "presigned-urls"
+        ],
+        "summary": "Get Upload Url",
+        "operationId": "get_upload_url_api_FlexGetUploadURL_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadURLRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadURLResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/FlexGetDownloadURL": {
+      "post": {
+        "tags": [
+          "presigned-urls"
+        ],
+        "summary": "Get Download Url",
+        "operationId": "get_download_url_api_FlexGetDownloadURL_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DownloadURLRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/devices/{device_id}/files/{file_type}/upload-url": {
+      "post": {
+        "tags": [
+          "device-files"
+        ],
+        "summary": "Get Device File Upload Url",
+        "description": "Returns a presigned PUT URL for the device's fixed `file_type` file. Send the file as the raw request body with the returned `content_type` as the `Content-Type` header. The URL is pinned to exactly that file and content type, and expires in 15 minutes. Needs `device:files:upload` plus the file type's own permission (`dbc`: `device:config:write`; `stw`, `cobo`, `mcu_flash`: `device:firmware`). Uploading a firmware file does not apply it: the device only picks it up after the matching `flash`/`mcu_flash` command. Uploading a `dbc` is different, because the cloud decodes the device's data with that file immediately.",
+        "operationId": "get_device_file_upload_url_api_devices__device_id__files__file_type__upload_url_post",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "device_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,64}$",
+              "description": "Device id, or the device's 8-character short code",
+              "title": "Device Id"
+            },
+            "description": "Device id, or the device's 8-character short code"
+          },
+          {
+            "name": "file_type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "enum": [
+                "dbc",
+                "stw",
+                "cobo",
+                "mcu_flash"
+              ],
+              "type": "string",
+              "description": "Which fixed device file",
+              "title": "File Type"
+            },
+            "description": "Which fixed device file"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/DeviceFileUploadRequest"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceFileUploadResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/devices/{device_id}/files/{file_type}/download-url": {
+      "post": {
+        "tags": [
+          "device-files"
+        ],
+        "summary": "Get Device File Download Url",
+        "description": "Returns a presigned GET URL (15 minutes) for the device's fixed `file_type` file. Needs `device:files:download`; a device's own token may download only its own files. Send `hash` (the MD5 hash of the file you already have) to get `304` when unchanged; `404` if the file does not exist.",
+        "operationId": "get_device_file_download_url_api_devices__device_id__files__file_type__download_url_post",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "device_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,64}$",
+              "description": "Device id, or the device's 8-character short code",
+              "title": "Device Id"
+            },
+            "description": "Device id, or the device's 8-character short code"
+          },
+          {
+            "name": "file_type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "enum": [
+                "dbc",
+                "stw",
+                "cobo",
+                "mcu_flash"
+              ],
+              "type": "string",
+              "description": "Which fixed device file",
+              "title": "File Type"
+            },
+            "description": "Which fixed device file"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/DeviceFileDownloadRequest"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadURLResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/telemetry/devices": {
+      "get": {
+        "tags": [
+          "telemetry"
+        ],
+        "summary": "List Devices",
+        "operationId": "list_devices_api_telemetry_devices_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevicesResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/telemetry/{device_id}/fields": {
+      "get": {
+        "tags": [
+          "telemetry"
+        ],
+        "summary": "List Fields",
+        "operationId": "list_fields_api_telemetry__device_id__fields_get",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "device_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Device id, or the device's 8-character short code",
+              "title": "Device Id"
+            },
+            "description": "Device id, or the device's 8-character short code"
+          },
+          {
+            "name": "start_time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Start Time"
+            }
+          },
+          {
+            "name": "end_time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "End Time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TelemetryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/telemetry/{device_id}/overview": {
+      "get": {
+        "tags": [
+          "telemetry"
+        ],
+        "summary": "Get Overview",
+        "operationId": "get_overview_api_telemetry__device_id__overview_get",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "device_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Device id, or the device's 8-character short code",
+              "title": "Device Id"
+            },
+            "description": "Device id, or the device's 8-character short code"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "If set, only return these overview signals (e.g. fields=Heartbeat).",
+              "title": "Fields"
+            },
+            "description": "If set, only return these overview signals (e.g. fields=Heartbeat)."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TelemetryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/telemetry/overview:batch": {
+      "post": {
+        "tags": [
+          "telemetry"
+        ],
+        "summary": "Get Multi Overview",
+        "operationId": "get_multi_overview_api_telemetry_overview_batch_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MultiOverviewRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MultiOverviewResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/telemetry/{device_id}/last": {
+      "get": {
+        "tags": [
+          "telemetry"
+        ],
+        "summary": "Get Last",
+        "operationId": "get_last_api_telemetry__device_id__last_get",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "device_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Device id, or the device's 8-character short code",
+              "title": "Device Id"
+            },
+            "description": "Device id, or the device's 8-character short code"
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Field"
+            }
+          },
+          {
+            "name": "start_time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Start Time"
+            }
+          },
+          {
+            "name": "end_time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "End Time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TelemetryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/telemetry/{device_id}/last:batch": {
+      "post": {
+        "tags": [
+          "telemetry"
+        ],
+        "summary": "Get Multi Last",
+        "operationId": "get_multi_last_api_telemetry__device_id__last_batch_post",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "device_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Device id, or the device's 8-character short code",
+              "title": "Device Id"
+            },
+            "description": "Device id, or the device's 8-character short code"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MultiFieldsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchTelemetryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/telemetry/{device_id}/range": {
+      "get": {
+        "tags": [
+          "telemetry"
+        ],
+        "summary": "Get Range",
+        "operationId": "get_range_api_telemetry__device_id__range_get",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "device_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Device id, or the device's 8-character short code",
+              "title": "Device Id"
+            },
+            "description": "Device id, or the device's 8-character short code"
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Field"
+            }
+          },
+          {
+            "name": "start_time",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Start Time"
+            }
+          },
+          {
+            "name": "end_time",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "End Time"
+            }
+          },
+          {
+            "name": "aggregation",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Aggregation function: one of \"count\", \"first\", \"last\", \"max\", \"mean\", \"median\", \"min\", \"stddev\", \"sum\".",
+              "default": "mean",
+              "title": "Aggregation"
+            },
+            "description": "Aggregation function: one of \"count\", \"first\", \"last\", \"max\", \"mean\", \"median\", \"min\", \"stddev\", \"sum\"."
+          },
+          {
+            "name": "window_seconds",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Aggregation window size in seconds. Omit to auto-size to ~100 windows (capped at 1 day).",
+              "title": "Window Seconds"
+            },
+            "description": "Aggregation window size in seconds. Omit to auto-size to ~100 windows (capped at 1 day)."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TelemetryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/telemetry/{device_id}/range:batch": {
+      "post": {
+        "tags": [
+          "telemetry"
+        ],
+        "summary": "Get Multi Range",
+        "operationId": "get_multi_range_api_telemetry__device_id__range_batch_post",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "device_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Device id, or the device's 8-character short code",
+              "title": "Device Id"
+            },
+            "description": "Device id, or the device's 8-character short code"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MultiRangeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchTelemetryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CommandRequest": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "flash",
+              "dbc",
+              "message_change",
+              "can_message",
+              "modify_batch_delay",
+              "modify_sample_time",
+              "patch",
+              "get_devices",
+              "change_device_alias",
+              "get_device_config",
+              "update_device_config",
+              "insert_annotation",
+              "second_cobo",
+              "set_patching",
+              "mcu_flash"
+            ],
+            "title": "Type"
+          },
+          "device_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Device Id"
+          },
+          "flash_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Flash Type"
+          },
+          "message_change": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message Change"
+          },
+          "message_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message Name"
+          },
+          "bus_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bus Id"
+          },
+          "subsample_time": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subsample Time"
+          },
+          "dbcName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dbcname"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "destination": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Destination"
+          },
+          "req": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Req"
+          },
+          "batch_delay": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Batch Delay"
+          },
+          "sample_time": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sample Time"
+          },
+          "gst": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gst",
+            "description": "Whether GST is active; only used with modify_sample_time"
+          },
+          "is_second_cobo_active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Second Cobo Active"
+          },
+          "set_patching": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Set Patching"
+          },
+          "alias": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alias"
+          },
+          "annotation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Annotation"
+          },
+          "config": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Config"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "title": "CommandRequest"
+      },
+      "DeleteRequestBody": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Type",
+            "description": "Request type to delete (e.g. ConfReq, SendReq)"
+          },
+          "field": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Field",
+            "description": "Specific field to delete; omit to delete all of `type`"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "title": "DeleteRequestBody"
+      },
+      "DeleteResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success"
+        ],
+        "title": "DeleteResponse"
+      },
+      "DeviceFileDownloadRequest": {
+        "properties": {
+          "hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hash",
+            "description": "ETag the caller already has; answers 304 if unchanged"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "DeviceFileDownloadRequest"
+      },
+      "DeviceFileUploadRequest": {
+        "properties": {},
+        "additionalProperties": false,
+        "type": "object",
+        "title": "DeviceFileUploadRequest"
+      },
+      "DeviceFileUploadResponse": {
+        "properties": {
+          "upload_url": {
+            "type": "string",
+            "title": "Upload Url",
+            "description": "PUT the file to this URL as the raw request body"
+          },
+          "content_type": {
+            "type": "string",
+            "title": "Content Type",
+            "description": "Send exactly this `Content-Type` header with the PUT"
+          },
+          "expires_at": {
+            "type": "string",
+            "title": "Expires At",
+            "description": "ISO-8601 UTC time after which the URL is rejected"
+          }
+        },
+        "type": "object",
+        "required": [
+          "upload_url",
+          "content_type",
+          "expires_at"
+        ],
+        "title": "DeviceFileUploadResponse"
+      },
+      "DownloadURLRequest": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "dbc",
+              "stw",
+              "cobo",
+              "mcu_flash"
+            ],
+            "title": "Type"
+          },
+          "key_prefix": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Key Prefix",
+            "description": "Folder the file was kept in before; read only when the file is not yet in the organization's own"
+          },
+          "hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hash"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "title": "DownloadURLRequest"
+      },
+      "DownloadURLResponse": {
+        "properties": {
+          "download_url": {
+            "type": "string",
+            "title": "Download Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "download_url"
+        ],
+        "title": "DownloadURLResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "PatchResponse": {
+        "properties": {
+          "download_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Download Url"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          },
+          "is_full_patch": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Full Patch"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "title": "PatchResponse"
+      },
+      "UploadURLRequest": {
+        "properties": {
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          }
+        },
+        "type": "object",
+        "required": [
+          "filename"
+        ],
+        "title": "UploadURLRequest"
+      },
+      "UploadURLResponse": {
+        "properties": {
+          "upload_url": {
+            "type": "string",
+            "title": "Upload Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "upload_url"
+        ],
+        "title": "UploadURLResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "BatchTelemetryResponse": {
+        "properties": {
+          "device_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Device Id"
+          },
+          "operation": {
+            "type": "string",
+            "title": "Operation"
+          },
+          "series": {
+            "additionalProperties": {
+              "items": {
+                "$ref": "#/components/schemas/SeriesPoint"
+              },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Series"
+          }
+        },
+        "type": "object",
+        "required": [
+          "operation"
+        ],
+        "title": "BatchTelemetryResponse"
+      },
+      "DeviceOverviewResult": {
+        "properties": {
+          "readings": {
+            "items": {
+              "$ref": "#/components/schemas/ReadingOut"
+            },
+            "type": "array",
+            "title": "Readings"
+          }
+        },
+        "type": "object",
+        "title": "DeviceOverviewResult"
+      },
+      "DevicesResponse": {
+        "properties": {
+          "operation": {
+            "type": "string",
+            "title": "Operation",
+            "default": "list_devices"
+          },
+          "devices": {
+            "items": {},
+            "type": "array",
+            "title": "Devices"
+          }
+        },
+        "type": "object",
+        "title": "DevicesResponse"
+      },
+      "MultiFieldsRequest": {
+        "properties": {
+          "fields": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Fields"
+          },
+          "start_time": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Time"
+          },
+          "end_time": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Time"
+          }
+        },
+        "type": "object",
+        "required": [
+          "fields"
+        ],
+        "title": "MultiFieldsRequest"
+      },
+      "MultiOverviewRequest": {
+        "properties": {
+          "device_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Device Ids",
+            "description": "Devices to fetch, by device id or 8-character short code. Omit to get the overview for every device the caller can access. Results are keyed by device id; errors by the value sent."
+          },
+          "fields": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fields",
+            "description": "If set, only return these overview signals (e.g. [\"Heartbeat\"]). Omit for the full overview."
+          }
+        },
+        "type": "object",
+        "title": "MultiOverviewRequest"
+      },
+      "MultiOverviewResponse": {
+        "properties": {
+          "operation": {
+            "type": "string",
+            "title": "Operation",
+            "default": "get_multi_overview"
+          },
+          "devices": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/DeviceOverviewResult"
+            },
+            "type": "object",
+            "title": "Devices"
+          },
+          "errors": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Errors"
+          }
+        },
+        "type": "object",
+        "title": "MultiOverviewResponse"
+      },
+      "MultiRangeRequest": {
+        "properties": {
+          "fields": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Fields"
+          },
+          "start_time": {
+            "type": "string",
+            "title": "Start Time"
+          },
+          "end_time": {
+            "type": "string",
+            "title": "End Time"
+          },
+          "aggregations": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aggregations",
+            "description": "One aggregation function per field (e.g. [\"mean\", \"max\"]), each one of \"count\", \"first\", \"last\", \"max\", \"mean\", \"median\", \"min\", \"stddev\", \"sum\". Defaults to \"mean\" for every field."
+          },
+          "window_seconds": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Window Seconds",
+            "description": "Aggregation window size in seconds, shared across all fields. Omit to auto-size to ~100 windows across the requested time range (capped at 1 day)."
+          }
+        },
+        "type": "object",
+        "required": [
+          "fields",
+          "start_time",
+          "end_time"
+        ],
+        "title": "MultiRangeRequest"
+      },
+      "ReadingOut": {
+        "properties": {
+          "field": {
+            "type": "string",
+            "title": "Field"
+          },
+          "value": {
+            "title": "Value"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "field",
+          "value",
+          "timestamp"
+        ],
+        "title": "ReadingOut"
+      },
+      "SeriesPoint": {
+        "properties": {
+          "value": {
+            "title": "Value"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value",
+          "timestamp"
+        ],
+        "title": "SeriesPoint"
+      },
+      "TelemetryResponse": {
+        "properties": {
+          "device_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Device Id"
+          },
+          "operation": {
+            "type": "string",
+            "title": "Operation"
+          },
+          "readings": {
+            "items": {
+              "$ref": "#/components/schemas/ReadingOut"
+            },
+            "type": "array",
+            "title": "Readings"
+          },
+          "fields": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fields"
+          }
+        },
+        "type": "object",
+        "required": [
+          "operation"
+        ],
+        "title": "TelemetryResponse"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "description": "An ID token or, on the routes that accept them, an `flx_` API key or a device token. Send it as `Authorization: Bearer <token>`; an `x-id-token` header also works.",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

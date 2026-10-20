@@ -53,6 +53,10 @@ The FlexCase communicates with the cloud over both MQTT and HTTP:
 
 > If you prefer HTTP or REST over MQTT for downstream control, contact Audesse to discuss a custom interface.
 
+## REST API Reference
+
+The full FlexConnect REST API, including device requests and telemetry queries, is documented in the [API Reference](api/). The OpenAPI specification can also be downloaded directly as [YAML](api/openapi.yaml) or [JSON](api/openapi.json).
+
 ## AI Agents
 
 To query your telemetry from an AI agent such as Claude Code, Codex or Cursor, see [AI Agents](ai-agents.html).
