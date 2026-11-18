@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Flexconnect API",
-    "version": "0.6.0",
+    "version": "0.7.0",
     "description": "Reference for the Flexconnect fleet telematics API.\n\n- **Device Requests** (`DeviceRequestsApi`): `/api/*`\n- **Telemetry Query** (`TelemetryQueryApi`): `/api/telemetry/*`",
     "contact": {
       "name": "Omar Naman",
@@ -1005,6 +1005,219 @@
           }
         }
       }
+    },
+    "/api/telemetry/{device_id}/annotations": {
+      "get": {
+        "tags": [
+          "telemetry"
+        ],
+        "summary": "List a device's annotations",
+        "operationId": "list_annotations_api_telemetry__device_id__annotations_get",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "device_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Device id, or the device's 8-character short code",
+              "title": "Device Id"
+            },
+            "description": "Device id, or the device's 8-character short code"
+          },
+          {
+            "name": "start_time",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Start of the range, ISO-8601 UTC (inclusive).",
+              "title": "Start Time"
+            },
+            "description": "Start of the range, ISO-8601 UTC (inclusive)."
+          },
+          {
+            "name": "end_time",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "End of the range, ISO-8601 UTC (inclusive). At most 90 days after start_time.",
+              "title": "End Time"
+            },
+            "description": "End of the range, ISO-8601 UTC (inclusive). At most 90 days after start_time."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Maximum number of annotations to return, oldest first.",
+              "default": 100,
+              "title": "Limit"
+            },
+            "description": "Maximum number of annotations to return, oldest first."
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The next_cursor of the previous page. Repeat the same time range with it.",
+              "title": "Cursor"
+            },
+            "description": "The next_cursor of the previous page. Repeat the same time range with it."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnotationsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "telemetry"
+        ],
+        "summary": "Create an annotation",
+        "description": "Marks a moment on the device's timeline. Needs write access.",
+        "operationId": "create_annotation_api_telemetry__device_id__annotations_post",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "device_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Device id, or the device's 8-character short code",
+              "title": "Device Id"
+            },
+            "description": "Device id, or the device's 8-character short code"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAnnotationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnotationOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/telemetry/{device_id}/annotations/{annotation_id}": {
+      "delete": {
+        "tags": [
+          "telemetry"
+        ],
+        "summary": "Delete an annotation",
+        "description": "Needs write access. 404 if the annotation does not exist.",
+        "operationId": "delete_annotation_api_telemetry__device_id__annotations__annotation_id__delete",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "annotation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Annotation Id"
+            }
+          },
+          {
+            "name": "device_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Device id, or the device's 8-character short code",
+              "title": "Device Id"
+            },
+            "description": "Device id, or the device's 8-character short code"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1513,6 +1726,84 @@
         ],
         "title": "ValidationError"
       },
+      "AnnotationOut": {
+        "properties": {
+          "annotation_id": {
+            "type": "string",
+            "title": "Annotation Id",
+            "description": "Opaque annotation id; use it to delete the annotation."
+          },
+          "device_id": {
+            "type": "string",
+            "title": "Device Id"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp",
+            "description": "When the annotation applies, ISO-8601 UTC with millisecond precision."
+          },
+          "text": {
+            "type": "string",
+            "title": "Text",
+            "description": "The annotation text."
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At",
+            "description": "When the annotation was created, ISO-8601 UTC."
+          }
+        },
+        "type": "object",
+        "required": [
+          "annotation_id",
+          "device_id",
+          "timestamp",
+          "text",
+          "created_at"
+        ],
+        "title": "AnnotationOut"
+      },
+      "AnnotationsResponse": {
+        "properties": {
+          "device_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Device Id"
+          },
+          "operation": {
+            "type": "string",
+            "title": "Operation",
+            "default": "list_annotations"
+          },
+          "annotations": {
+            "items": {
+              "$ref": "#/components/schemas/AnnotationOut"
+            },
+            "type": "array",
+            "title": "Annotations"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor",
+            "description": "Pass this as cursor, with the same device and time range, to get the next page. Null when there are no more annotations."
+          }
+        },
+        "type": "object",
+        "title": "AnnotationsResponse"
+      },
       "BatchTelemetryResponse": {
         "properties": {
           "device_id": {
@@ -1546,6 +1837,35 @@
           "operation"
         ],
         "title": "BatchTelemetryResponse"
+      },
+      "CreateAnnotationRequest": {
+        "properties": {
+          "timestamp": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timestamp",
+            "description": "When the annotation applies. ISO-8601 with a timezone, e.g. 2024-01-01T00:00:00Z. Precision is milliseconds. The current time is used when omitted."
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Text",
+            "description": "Annotation text, 1 to 128 characters."
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "CreateAnnotationRequest"
       },
       "DeviceOverviewResult": {
         "properties": {
