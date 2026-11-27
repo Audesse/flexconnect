@@ -23,3 +23,6 @@ This example demonstrates polling for IMU data over SPI and sending the data ove
 
 This example follows the same pattern as the IMU K3 example, but uses the FlexConnect library to send the data over SPI to the attached MPU. {% include repo_link.html path="examples\/code\/FlexConnect_IMU_k3" text="link" tree=true %}.
 
+### FlexConnect IMU K3 BL
+
+This example demonstrates the FlexConnect MCU Bootloader Entry feature. {% include repo_link.html path="examples\/code\/FlexConnect_IMU_k3_BL" text="link" tree=true %}.
