@@ -1,4 +1,8 @@
-{%- assign repo_path = include.path | strip | remove_first: '/' -%}
+{%- assign repo_path = include.path | strip -%}
+{%- assign first_char = repo_path | slice: 0 -%}
+{%- if first_char == '/' -%}
+  {%- assign repo_path = repo_path | slice: 1, repo_path.size -%}
+{%- endif -%}
 {%- assign link_text = include.text | default: repo_path -%}
 {%- if include.tree -%}
   {%- assign link_url = site.repo.url | append: '/tree/' | append: site.repo.branch | append: '/' | append: repo_path -%}
