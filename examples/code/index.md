@@ -142,3 +142,69 @@ Returns the number of operations rejected because the buffer was locked by anoth
 ```c
 uint16_t busyCount = flx_getBufferBusyCount();
 ```
+
+## Bootloader entry (periph library)
+
+The MCU can reset into the FlexConnect bootloader on request from the SBC. This lets you reflash the application over SPI without a debugger. The {% include repo_link.html path="examples/code/FlexConnect_IMU_k3_BL/" text="FlexConnect IMU bootloader example" tree=true %} adds bootloader entry to the IMU example.
+
+The bootloader entry function is in the FlexConnect peripheral library, in the {% include repo_link.html path="lib/" text="lib/" tree=true %} directory:
+
+- {% include repo_link.html path="lib/periph.h" text="lib/periph.h" %} — API header
+- {% include repo_link.html path="lib/periph.o" text="lib/periph.o" %} — prebuilt object file (link at build time)
+
+Link `periph.o` together with `flexconnect.o`. The example keeps copies of both libraries in its `audesselib/` directory.
+
+### How bootloader entry works
+
+1. The SBC host tool (`FLXmcuFlash.py`) sends the 8-byte enter-bootloader code over the FlexConnect SPI link.
+2. The SPI end-of-job callback decodes the transfer and compares it with the enter-bootloader code. If the code matches, the callback sets a request flag.
+3. The next 10 ms task sees the flag and calls `flx_k3JumpToBL`. The MCU resets into the bootloader, and the function does not return.
+
+The SPI callback sets a flag and does not call `flx_k3JumpToBL` itself. The reset then happens in the scheduled task, outside the SPI interrupt context.
+
+### Enter-bootloader code
+
+The code is the payload length (`0x07`), followed by `0x31 0x83` and the ASCII characters `FlexC`:
+
+```c
+/* payload length (7) followed by 0x31 0x83 'F' 'l' 'e' 'x' 'C' */
+const uint8 FLX_ENTER_BL_CODE[8] = {0x07, 0x31, 0x83, 0x46, 0x6C, 0x65, 0x78, 0x43};
+volatile bool FLX_EnterBL_Request = false;
+```
+
+Declare the request flag `volatile`, because the SPI callback writes it and the scheduled task reads it.
+
+### Detecting the request
+
+In {% include repo_link.html path="examples/code/FlexConnect_IMU_k3_BL/src/main.c" text="MBDT_SPI_end_job_MPU_callback()" %}, the example checks each valid receive buffer for the code:
+
+```c
+// Process Rx data
+FLX_Rx_DataValid = flx_rxDataPrep(FLX_RxData, &FLX_Rx_Channel, &FLX_Rx_ID, &FLX_Rx_DLC, FLX_Rx_Payload, FLX_TransferSize);
+
+// Request reset into bootloader if the enter-bootloader code was received
+if (FLX_Rx_DataValid && (memcmp(FLX_RxData, FLX_ENTER_BL_CODE, sizeof(FLX_ENTER_BL_CODE)) == 0))
+{
+    FLX_EnterBL_Request = true;
+}
+```
+
+### Jumping to the bootloader
+
+At the start of `Exec_10ms()`, the example acts on the request:
+
+```c
+// Reset into the bootloader if requested over SPI (does not return)
+if (FLX_EnterBL_Request)
+{
+    flx_k3JumpToBL();
+}
+```
+
+#### `flx_k3JumpToBL`
+
+Resets the S32K3 MCU into the FlexConnect bootloader. Takes no parameters and does not return.
+
+```c
+void flx_k3JumpToBL(void);
+```
